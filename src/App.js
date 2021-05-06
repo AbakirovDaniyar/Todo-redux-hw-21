@@ -1,24 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Counter from "./components/Counter";
+import { Provider } from "react-redux";
+import { createStore } from "redux";
+import rootReducer from "./store/reducers";
+import TodoList from "./components/TodoList";
+import { useState } from "react";
+
+// creating store
+const store = createStore(rootReducer);
 
 function App() {
+  const [switchComponent, setSwitch] = useState(false);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    // providing store to all components in App.js
+    <Provider store={store}>
+      <button style={{marginBottom: 20}} onClick={() => setSwitch(!switchComponent)}>switch</button>
+      {/* conditional rendering */}
+      {switchComponent ? <Counter /> : <TodoList />}
+    </Provider>
   );
 }
 
